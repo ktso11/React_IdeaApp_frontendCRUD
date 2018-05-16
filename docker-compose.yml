@@ -1,0 +1,24 @@
+version: '3'
+
+services:
+  ideas-api:
+      image: anapsix/alpine-java:8_jdk_unlimited
+      ports:
+        - '8080:8080'
+      working_dir: /ideas-api
+      volumes:
+        - ./ideas-api:/ideas-api
+      depends_on:
+        - postgresdev
+      command: './gradlew bootRun'
+      environment:
+        - GRADLE_USER_HOME=cache
+        - SPRING_PROFILES_ACTIVE=dev
+  postgresdev:
+      image: postgres
+      ports:
+        - "5432:5432"
+      environment:
+        - POSTGRES_PASSWORD=password
+        - POSTGRES_USER=postgres
+        - POSTGRES_DB=pgdev
